@@ -44,17 +44,33 @@ body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 15% 0%,#1a3
 .card:before{content:"";position:absolute;right:-65px;top:-90px;width:220px;height:220px;border-radius:50%;background:var(--glow);opacity:.11;filter:blur(2px)}
 .card-head{position:relative;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .person{display:flex;align-items:center;gap:12px}
-.avatar{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;background:var(--accent);color:#081329;font-size:18px;font-weight:900;overflow:hidden;object-fit:cover}
+.avatar{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;background:var(--accent);color:#081329;font-size:18px;font-weight:900;overflow:hidden}
 .avatar img{width:100%;height:100%;object-fit:cover}
 .person h3{margin:0 0 4px;font-size:20px}
 .person small{color:var(--muted);font-size:12px}
 .ticker{font-size:11px;color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 45%,transparent);padding:7px 10px;border-radius:9px;font-weight:800;letter-spacing:.06em}
 
 .counter-label{margin-top:22px;color:var(--muted);font-size:13px}
-.count{display:flex;align-items:baseline;gap:8px;margin:2px 0 2px}
-.count strong{font-size:clamp(46px,6vw,72px);line-height:1.1;letter-spacing:-.07em;font-variant-numeric:tabular-nums}
+
+/* Khối hiển thị ngày + đồng hồ nằm ngang hàng */
+.counter-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:4px 0 10px;flex-wrap:wrap}
+.count{display:flex;align-items:baseline;gap:8px}
+.count strong{font-size:clamp(48px,6.5vw,76px);line-height:1;letter-spacing:-.07em;font-variant-numeric:tabular-nums}
 .count span{font-size:16px;color:var(--muted)}
-.live-clock{font-size:14px;font-weight:700;color:var(--accent);margin-bottom:8px;font-variant-numeric:tabular-nums;letter-spacing:.03em}
+
+/* Đồng hồ thời gian thực to & thiết kế nằm bên phải */
+.live-clock{
+  font-size:clamp(22px,2.8vw,32px);
+  font-weight:800;
+  color:var(--accent);
+  background:rgba(255,255,255,.05);
+  border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);
+  padding:6px 14px;
+  border-radius:12px;
+  font-variant-numeric:tabular-nums;
+  letter-spacing:.05em;
+  box-shadow:0 4px 15px rgba(0,0,0,.15);
+}
 
 .since{font-size:13px;color:var(--muted)}
 .since b{color:var(--text);font-weight:700}
@@ -102,6 +118,7 @@ body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 15% 0%,#1a3
   .hero{padding:20px;align-items:flex-start;flex-direction:column}
   .cards{grid-template-columns:1fr}
   .card{min-height:auto;padding:22px}
+  .counter-row{flex-direction:column;align-items:flex-start;gap:6px}
   .bottom{align-items:flex-start;flex-direction:column}
   .fields{grid-template-columns:1fr}
 }
@@ -145,8 +162,10 @@ body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 15% 0%,#1a3
         <div class="ticker" id="tickerLabelA">HOLDING A</div>
       </div>
       <div class="counter-label">Đã sở hữu cổ phiếu trong</div>
-      <div class="count"><strong id="daysA">0</strong><span>ngày</span></div>
-      <div class="live-clock" id="clockA">00:00:00</div>
+      <div class="counter-row">
+        <div class="count"><strong id="daysA">0</strong><span>ngày</span></div>
+        <div class="live-clock" id="clockA">00:00:00</div>
+      </div>
       <div class="since">Bắt đầu từ <b id="dateLabelA">--/--/----</b></div>
       <div class="divider"></div>
       <div class="stats">
@@ -161,15 +180,17 @@ body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 15% 0%,#1a3
         <div class="person">
           <div class="avatar" id="avatarBoxB">B</div>
           <div>
-            <h3 id="nameLabelB">Nhà đầu tư B</h3>
+            <h3 id="nameLabelB">Mr. Bean</h3>
             <small>Hành trình nắm giữ</small>
           </div>
         </div>
         <div class="ticker" id="tickerLabelB">HOLDING B</div>
       </div>
       <div class="counter-label">Đã sở hữu cổ phiếu trong</div>
-      <div class="count"><strong id="daysB">0</strong><span>ngày</span></div>
-      <div class="live-clock" id="clockB">00:00:00</div>
+      <div class="counter-row">
+        <div class="count"><strong id="daysB">0</strong><span>ngày</span></div>
+        <div class="live-clock" id="clockB">00:00:00</div>
+      </div>
       <div class="since">Bắt đầu từ <b id="dateLabelB">--/--/----</b></div>
       <div class="divider"></div>
       <div class="stats">
@@ -231,7 +252,7 @@ body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 15% 0%,#1a3
       <div class="fields">
         <div class="field">
           <label for="nameB">Tên hiển thị</label>
-          <input id="nameB" type="text" value="Nhà đầu tư B">
+          <input id="nameB" type="text" value="Mr. Bean">
         </div>
         <div class="field">
           <label for="dateB">Ngày bắt đầu</label>
@@ -256,7 +277,7 @@ body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 15% 0%,#1a3
 <script>
 const defaults = {
   nameA: "Mr. Hùng", dateA: "2026-10-19", avatarA: "",
-  nameB: "Nhà đầu tư B", dateB: "2026-10-23", avatarB: "",
+  nameB: "Mr. Bean", dateB: "2026-10-23", avatarB: "",
   theme: "dark"
 };
 
@@ -322,7 +343,7 @@ function processCard(key, dateVal, now) {
   const diffTime = now - startDate;
   const days = Math.max(0, Math.floor(diffTime / 86400000));
   
-  // Tính giờ phút giây thời gian thực trôi qua trong ngày hiện tại hoặc tổng thời gian
+  // Tính giờ phút giây thời gian thực trôi qua trong ngày hiện tại
   const totalSeconds = Math.max(0, Math.floor(diffTime / 1000));
   const hours = String(Math.floor((totalSeconds % 86400) / 3600)).padStart(2, '0');
   const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
@@ -444,7 +465,7 @@ function loadSettings() {
 }
 
 loadSettings();
-// Cập nhật liên tục mỗi giây cho đồng hồ thực tế
+// Cập nhật liên tục mỗi giây
 setInterval(render, 1000);
 </script>
 </body>
