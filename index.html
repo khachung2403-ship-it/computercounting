@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#101a35">
-<title>Đếm ngày sở hữu cổ phiếu | A & B</title>
+<title>Đếm ngày sở hữu cổ phiếu | Stock Day Tracker</title>
 <style>
 :root{
   --bg:#0a1020;--panel:#111b33;--panel2:#162441;--line:rgba(255,255,255,.1);
@@ -28,9 +28,19 @@ body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 15% 0%,#1a3
 .logo{width:48px;height:48px;border-radius:15px;background:linear-gradient(135deg,var(--green),var(--blue));display:grid;place-items:center;color:#0b1730;font-size:25px;font-weight:900;box-shadow:0 8px 30px rgba(85,224,163,.2)}
 .eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--green);font-weight:800}
 .brand h1{font-size:clamp(22px,3vw,32px);margin:3px 0 0;letter-spacing:-.04em}
-.top-right-group{display:flex;align-items:center;gap:15px}
+
+.top-right-group{display:flex;align-items:center;gap:12px}
 .top-right{color:var(--muted);font-size:13px;text-align:right}
 .top-right strong{display:block;color:var(--text);font-size:15px;margin-bottom:4px}
+
+/* Nút chuyển đổi ngôn ngữ chỉ hiển thị cờ */
+.lang-btn{
+  height:46px;padding:0 14px;border-radius:14px;background:var(--panel);border:1px solid var(--line);
+  color:var(--text);font-size:24px;display:flex;align-items:center;justify-content:center;cursor:pointer;
+  transition:transform .2s,background .2s;
+}
+.lang-btn:hover{background:var(--panel2);transform:scale(1.05)}
+
 .settings-btn{width:46px;height:46px;border-radius:14px;background:var(--panel);border:1px solid var(--line);color:var(--text);font-size:20px;display:grid;place-items:center;cursor:pointer;transition:transform .2s,background .2s}
 .settings-btn:hover{background:var(--panel2);transform:scale(1.05)}
 
@@ -52,13 +62,11 @@ body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 15% 0%,#1a3
 
 .counter-label{margin-top:22px;color:var(--muted);font-size:13px}
 
-/* Khối hiển thị ngày + đồng hồ nằm ngang hàng */
 .counter-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:4px 0 10px;flex-wrap:wrap}
 .count{display:flex;align-items:baseline;gap:8px}
 .count strong{font-size:clamp(48px,6.5vw,76px);line-height:1;letter-spacing:-.07em;font-variant-numeric:tabular-nums}
 .count span{font-size:16px;color:var(--muted)}
 
-/* Đồng hồ thời gian thực to & thiết kế nằm bên phải */
 .live-clock{
   font-size:clamp(22px,2.8vw,32px);
   font-weight:800;
@@ -113,8 +121,8 @@ body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 15% 0%,#1a3
 
 @media(max-width:760px){
   .wrap{padding:22px 15px}
-  .top{align-items:flex-start}
-  .top-right-group{flex-direction:column;align-items:flex-end;gap:8px}
+  .top{align-items:flex-start;flex-direction:column}
+  .top-right-group{width:100%;justify-content:space-between;gap:8px}
   .hero{padding:20px;align-items:flex-start;flex-direction:column}
   .cards{grid-template-columns:1fr}
   .card{min-height:auto;padding:22px}
@@ -131,19 +139,25 @@ body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 15% 0%,#1a3
       <div class="logo">↗</div>
       <div>
         <div class="eyebrow">Portfolio • Day tracker</div>
-        <h1>Đếm ngày sở hữu cổ phiếu</h1>
+        <h1 data-i18n="title">Đếm ngày sở hữu cổ phiếu</h1>
       </div>
     </div>
     <div class="top-right-group">
-      <div class="top-right"><strong id="today">--/--/----</strong>NGÀY THEO DÕI HIỆN TẠI</div>
+      <div class="top-right"><strong id="today">--/--/----</strong><span data-i18n="current_date_label">NGÀY THEO DÕI HIỆN TẠI</span></div>
+      
+      <!-- Nút chuyển ngôn ngữ chỉ hiển thị cờ Việt Nam (🇻🇳) hoặc cờ Anh (🇬🇧) -->
+      <button class="lang-btn" id="langToggle" title="Chuyển đổi ngôn ngữ / Change Language">
+        <span id="langFlag">🇬🇧</span>
+      </button>
+
       <button class="settings-btn" id="openSettings" title="Cài đặt">⚙</button>
     </div>
   </header>
 
   <section class="hero">
     <div>
-      <h2>Mỗi ngày nắm giữ, thêm một dấu mốc 📈</h2>
-      <p>Theo dõi hành trình đầu tư trên cùng một màn hình.<br>Bộ đếm độc lập, cập nhật thời gian thực từng giây.</p>
+      <h2 data-i18n="hero_title">Mỗi ngày nắm giữ, thêm một dấu mốc 📈</h2>
+      <p data-i18n="hero_desc">Theo dõi hành trình đầu tư trên cùng một màn hình.<br>Bộ đếm độc lập, cập nhật thời gian thực từng giây.</p>
     </div>
     <div class="market-pill">● PORTFOLIO TRACKER</div>
   </section>
@@ -156,21 +170,21 @@ body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 15% 0%,#1a3
           <div class="avatar" id="avatarBoxA">A</div>
           <div>
             <h3 id="nameLabelA">Mr. Hùng</h3>
-            <small>Hành trình nắm giữ</small>
+            <small data-i18n="holding_journey">Hành trình nắm giữ</small>
           </div>
         </div>
         <div class="ticker" id="tickerLabelA">HOLDING A</div>
       </div>
-      <div class="counter-label">Đã sở hữu cổ phiếu trong</div>
+      <div class="counter-label" data-i18n="owned_for">Đã sở hữu cổ phiếu trong</div>
       <div class="counter-row">
-        <div class="count"><strong id="daysA">0</strong><span>ngày</span></div>
+        <div class="count"><strong id="daysA">0</strong><span data-i18n="days_unit">ngày</span></div>
         <div class="live-clock" id="clockA">00:00:00</div>
       </div>
-      <div class="since">Bắt đầu từ <b id="dateLabelA">--/--/----</b></div>
+      <div class="since"><span data-i18n="since_label">Bắt đầu từ</span> <b id="dateLabelA">--/--/----</b></div>
       <div class="divider"></div>
       <div class="stats">
-        <div class="stat"><span>Ngày bắt đầu</span><strong id="startA">--/--/----</strong></div>
-        <div class="stat"><span>Mốc tiếp theo</span><strong id="nextA">Ngày thứ 30</strong></div>
+        <div class="stat"><span data-i18n="start_date">Ngày bắt đầu</span><strong id="startA">--/--/----</strong></div>
+        <div class="stat"><span data-i18n="next_milestone">Mốc tiếp theo</span><strong id="nextA">--</strong></div>
       </div>
     </article>
 
@@ -181,65 +195,65 @@ body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 15% 0%,#1a3
           <div class="avatar" id="avatarBoxB">B</div>
           <div>
             <h3 id="nameLabelB">Mr. Bean</h3>
-            <small>Hành trình nắm giữ</small>
+            <small data-i18n="holding_journey">Hành trình nắm giữ</small>
           </div>
         </div>
         <div class="ticker" id="tickerLabelB">HOLDING B</div>
       </div>
-      <div class="counter-label">Đã sở hữu cổ phiếu trong</div>
+      <div class="counter-label" data-i18n="owned_for">Đã sở hữu cổ phiếu trong</div>
       <div class="counter-row">
-        <div class="count"><strong id="daysB">0</strong><span>ngày</span></div>
+        <div class="count"><strong id="daysB">0</strong><span data-i18n="days_unit">ngày</span></div>
         <div class="live-clock" id="clockB">00:00:00</div>
       </div>
-      <div class="since">Bắt đầu từ <b id="dateLabelB">--/--/----</b></div>
+      <div class="since"><span data-i18n="since_label">Bắt đầu từ</span> <b id="dateLabelB">--/--/----</b></div>
       <div class="divider"></div>
       <div class="stats">
-        <div class="stat"><span>Ngày bắt đầu</span><strong id="startB">--/--/----</strong></div>
-        <div class="stat"><span>Mốc tiếp theo</span><strong id="nextB">Ngày thứ 30</strong></div>
+        <div class="stat"><span data-i18n="start_date">Ngày bắt đầu</span><strong id="startB">--/--/----</strong></div>
+        <div class="stat"><span data-i18n="next_milestone">Mốc tiếp theo</span><strong id="nextB">--</strong></div>
       </div>
     </article>
   </section>
 
   <div class="bottom">
-    <div>📊 Bộ đếm hiển thị số ngày và đồng hồ thời gian thực kể từ ngày bắt đầu.</div>
-    <div>Chênh lệch thời gian giữa 2 nhà đầu tư: <strong id="gap">0 ngày</strong></div>
+    <div data-i18n="bottom_note">📊 Bộ đếm hiển thị số ngày và đồng hồ thời gian thực kể từ ngày bắt đầu.</div>
+    <div><span data-i18n="gap_label">Chênh lệch thời gian giữa 2 nhà đầu tư:</span> <strong id="gap">0 ngày</strong></div>
   </div>
 
-  <footer class="foot">MADE FOR YOUR PORTFOLIO <span>✦</span> Một ngày một dấu mốc.</footer>
+  <footer class="foot">MADE FOR YOUR PORTFOLIO <span>✦</span> <span data-i18n="footer_slogan">Một ngày một dấu mốc.</span></footer>
 </main>
 
 <!-- Bảng Cài đặt (Modal) -->
 <div class="modal-overlay" id="settingsModal">
   <div class="modal">
     <div class="modal-header">
-      <h3>Cài đặt hệ thống</h3>
+      <h3 data-i18n="modal_title">Cài đặt hệ thống</h3>
       <button class="close-btn" id="closeSettings">&times;</button>
     </div>
 
     <!-- Giao diện -->
     <div class="settings-section">
-      <h4>Giao diện hiển thị</h4>
+      <h4 data-i18n="theme_section">Giao diện hiển thị</h4>
       <div class="theme-switch">
-        <button class="theme-btn" id="darkThemeBtn" data-theme="dark">🌙 Tối (Dark)</button>
-        <button class="theme-btn" id="lightThemeBtn" data-theme="light">☀️ Sáng (Light)</button>
+        <button class="theme-btn" id="darkThemeBtn" data-theme="dark" data-i18n="dark_mode">🌙 Tối (Dark)</button>
+        <button class="theme-btn" id="lightThemeBtn" data-theme="light" data-i18n="light_mode">☀️ Sáng (Light)</button>
       </div>
     </div>
 
     <!-- Cài đặt Nhà đầu tư A -->
     <div class="settings-section">
-      <h4>Nhà đầu tư A</h4>
+      <h4><span data-i18n="investor">Nhà đầu tư</span> A</h4>
       <div class="fields">
         <div class="field">
-          <label for="nameA">Tên hiển thị</label>
+          <label for="nameA" data-i18n="name_label">Tên hiển thị</label>
           <input id="nameA" type="text" value="Mr. Hùng">
         </div>
         <div class="field">
-          <label for="dateA">Ngày bắt đầu</label>
+          <label for="dateA" data-i18n="start_date">Ngày bắt đầu</label>
           <input id="dateA" type="date" value="2026-10-19">
         </div>
       </div>
       <div class="field">
-        <label>Ảnh đại diện (Avatar)</label>
+        <label data-i18n="avatar_label">Ảnh đại diện (Avatar)</label>
         <div class="file-input-wrap">
           <input id="avatarFileA" type="file" accept="image/*">
         </div>
@@ -248,19 +262,19 @@ body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 15% 0%,#1a3
 
     <!-- Cài đặt Nhà đầu tư B -->
     <div class="settings-section">
-      <h4>Nhà đầu tư B</h4>
+      <h4><span data-i18n="investor">Nhà đầu tư</span> B</h4>
       <div class="fields">
         <div class="field">
-          <label for="nameB">Tên hiển thị</label>
+          <label for="nameB" data-i18n="name_label">Tên hiển thị</label>
           <input id="nameB" type="text" value="Mr. Bean">
         </div>
         <div class="field">
-          <label for="dateB">Ngày bắt đầu</label>
+          <label for="dateB" data-i18n="start_date">Ngày bắt đầu</label>
           <input id="dateB" type="date" value="2026-10-23">
         </div>
       </div>
       <div class="field">
-        <label>Ảnh đại diện (Avatar)</label>
+        <label data-i18n="avatar_label">Ảnh đại diện (Avatar)</label>
         <div class="file-input-wrap">
           <input id="avatarFileB" type="file" accept="image/*">
         </div>
@@ -268,31 +282,105 @@ body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 15% 0%,#1a3
     </div>
 
     <div class="actions">
-      <button class="btn primary" id="save">Lưu cài đặt</button>
-      <button class="btn secondary" id="reset">Khôi phục mặc định</button>
+      <button class="btn primary" id="save" data-i18n="save_btn">Lưu cài đặt</button>
+      <button class="btn secondary" id="reset" data-i18n="reset_btn">Khôi phục mặc định</button>
     </div>
   </div>
 </div>
 
 <script>
+const translations = {
+  vi: {
+    title: "Đếm ngày sở hữu cổ phiếu",
+    current_date_label: "NGÀY THEO DÕI HIỆN TẠI",
+    hero_title: "Mỗi ngày nắm giữ, thêm một dấu mốc 📈",
+    hero_desc: "Theo dõi hành trình đầu tư trên cùng một màn hình.<br>Bộ đếm độc lập, cập nhật thời gian thực từng giây.",
+    holding_journey: "Hành trình nắm giữ",
+    owned_for: "Đã sở hữu cổ phiếu trong",
+    days_unit: "ngày",
+    since_label: "Bắt đầu từ",
+    start_date: "Ngày bắt đầu",
+    next_milestone: "Mốc tiếp theo",
+    day_nth: "Ngày thứ",
+    bottom_note: "📊 Bộ đếm hiển thị số ngày và đồng hồ thời gian thực kể từ ngày bắt đầu.",
+    gap_label: "Chênh lệch thời gian giữa 2 nhà đầu tư:",
+    footer_slogan: "Một ngày một dấu mốc.",
+    modal_title: "Cài đặt hệ thống",
+    theme_section: "Giao diện hiển thị",
+    dark_mode: "🌙 Tối (Dark)",
+    light_mode: "☀️ Sáng (Light)",
+    investor: "Nhà đầu tư",
+    name_label: "Tên hiển thị",
+    avatar_label: "Ảnh đại diện (Avatar)",
+    save_btn: "Lưu cài đặt",
+    reset_btn: "Khôi phục mặc định"
+  },
+  en: {
+    title: "Stock Holding Day Tracker",
+    current_date_label: "CURRENT TRACKING DATE",
+    hero_title: "Every day holding, one step closer 📈",
+    hero_desc: "Track investment journeys on a single screen.<br>Independent counters, updating in real-time every second.",
+    holding_journey: "Holding Journey",
+    owned_for: "Owned shares for",
+    days_unit: "days",
+    since_label: "Started from",
+    start_date: "Start Date",
+    next_milestone: "Next Milestone",
+    day_nth: "Day",
+    bottom_note: "📊 Counter shows total days and real-time clock elapsed since start date.",
+    gap_label: "Time difference between 2 investors:",
+    footer_slogan: "One day, one milestone.",
+    modal_title: "System Settings",
+    theme_section: "Display Mode",
+    dark_mode: "🌙 Dark Mode",
+    light_mode: "☀️ Light Mode",
+    investor: "Investor",
+    name_label: "Display Name",
+    avatar_label: "Avatar Image",
+    save_btn: "Save Settings",
+    reset_btn: "Reset Defaults"
+  }
+};
+
 const defaults = {
   nameA: "Mr. Hùng", dateA: "2026-10-19", avatarA: "",
   nameB: "Mr. Bean", dateB: "2026-10-23", avatarB: "",
-  theme: "dark"
+  theme: "dark", lang: "vi"
 };
 
+let currentLang = "vi";
 const $ = id => document.getElementById(id);
 
-// Mở/đóng modal cài đặt
+$("langToggle").addEventListener("click", () => {
+  currentLang = currentLang === "vi" ? "en" : "vi";
+  updateLanguage();
+  render();
+});
+
+function updateLanguage() {
+  if (currentLang === "en") {
+    // Đang ở tiếng Anh, hiển thị nút cờ VN để bấm chuyển về tiếng Việt
+    $("langFlag").textContent = "🇻🇳";
+  } else {
+    // Đang ở tiếng Việt, hiển thị nút cờ Anh để bấm chuyển sang tiếng Anh
+    $("langFlag").textContent = "🇬🇧";
+  }
+
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.dataset.i18n;
+    if (translations[currentLang][key]) {
+      el.innerHTML = translations[currentLang][key];
+    }
+  });
+}
+
 $("openSettings").addEventListener("click", () => $("settingsModal").classList.add("active"));
 $("closeSettings").addEventListener("click", () => $("settingsModal").classList.remove("active"));
 $("settingsModal").addEventListener("click", (e) => { if(e.target === $("settingsModal")) $("settingsModal").classList.remove("active"); });
 
-// Xử lý nút chọn theme
 document.querySelectorAll(".theme-btn").forEach(btn => {
   btn.addEventListener("click", () => {
-    const t = btn.dataset.theme;
-    setTheme(t);
+    setTheme(btn.dataset.theme);
   });
 });
 
@@ -314,7 +402,8 @@ function parseDate(value){
 }
 
 function fmt(date){
-  return new Intl.DateTimeFormat("vi-VN",{day:"2-digit",month:"2-digit",year:"numeric"}).format(date);
+  const locale = currentLang === "en" ? "en-US" : "vi-VN";
+  return new Intl.DateTimeFormat(locale, {day:"2-digit", month:"2-digit", year:"numeric"}).format(date);
 }
 
 function render() {
@@ -335,7 +424,7 @@ function render() {
   const startA = parseDate(valA);
   const startB = parseDate(valB);
   const diffDays = Math.abs(Math.floor((now - startA)/86400000) - Math.floor((now - startB)/86400000));
-  $("gap").textContent = diffDays + " ngày";
+  $("gap").textContent = diffDays + " " + translations[currentLang].days_unit;
 }
 
 function processCard(key, dateVal, now) {
@@ -343,22 +432,21 @@ function processCard(key, dateVal, now) {
   const diffTime = now - startDate;
   const days = Math.max(0, Math.floor(diffTime / 86400000));
   
-  // Tính giờ phút giây thời gian thực trôi qua trong ngày hiện tại
   const totalSeconds = Math.max(0, Math.floor(diffTime / 1000));
   const hours = String(Math.floor((totalSeconds % 86400) / 3600)).padStart(2, '0');
   const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
   const seconds = String(totalSeconds % 60).padStart(2, '0');
 
-  $("days" + key).textContent = days.toLocaleString("vi-VN");
+  const locale = currentLang === "en" ? "en-US" : "vi-VN";
+  $("days" + key).textContent = days.toLocaleString(locale);
   $("clock" + key).textContent = `${hours}:${minutes}:${seconds}`;
   $("dateLabel" + key).textContent = fmt(startDate);
   $("start" + key).textContent = fmt(startDate);
 
   const milestone = days < 30 ? 30 : days < 100 ? 100 : days < 365 ? 365 : Math.ceil((days + 1) / 365) * 365;
-  $("next" + key).textContent = "Ngày thứ " + milestone.toLocaleString("vi-VN");
+  $("next" + key).textContent = `${translations[currentLang].day_nth} ${milestone.toLocaleString(locale)}`;
 }
 
-// Xử lý upload ảnh đại diện
 let tempAvatarA = "", tempAvatarB = "";
 $("avatarFileA").addEventListener("change", function(e) {
   const file = e.target.files[0];
@@ -393,10 +481,9 @@ function updateAvatarUI(key, imgData) {
   }
 }
 
-// Lưu cài đặt
 $("save").addEventListener("click", () => {
   if(!$("dateA").value || !$("dateB").value) {
-    alert("Vui lòng chọn đủ hai ngày bắt đầu.");
+    alert(currentLang === "en" ? "Please select both start dates." : "Vui lòng chọn đủ hai ngày bắt đầu.");
     return;
   }
   const config = {
@@ -406,7 +493,8 @@ $("save").addEventListener("click", () => {
     nameB: $("nameB").value,
     dateB: $("dateB").value,
     avatarB: tempAvatarB || localStorage.getItem("avatarB_saved") || "",
-    theme: document.body.classList.contains("light-mode") ? "light" : "dark"
+    theme: document.body.classList.contains("light-mode") ? "light" : "dark",
+    lang: currentLang
   };
 
   if(tempAvatarA) localStorage.setItem("avatarA_saved", tempAvatarA);
@@ -417,7 +505,6 @@ $("save").addEventListener("click", () => {
   render();
 });
 
-// Khôi phục mặc định
 $("reset").addEventListener("click", () => {
   localStorage.removeItem("stockDayTrackerAdvanced");
   localStorage.removeItem("avatarA_saved");
@@ -429,14 +516,15 @@ $("reset").addEventListener("click", () => {
   $("dateB").value = defaults.dateB;
   tempAvatarA = "";
   tempAvatarB = "";
+  currentLang = defaults.lang;
   updateAvatarUI("A", "");
   updateAvatarUI("B", "");
   setTheme(defaults.theme);
+  updateLanguage();
   render();
   $("settingsModal").classList.remove("active");
 });
 
-// Tải dữ liệu khi mở trang
 function loadSettings() {
   try {
     const saved = JSON.parse(localStorage.getItem("stockDayTrackerAdvanced") || "{}");
@@ -445,6 +533,7 @@ function loadSettings() {
     const dateA = saved.dateA || defaults.dateA;
     const dateB = saved.dateB || defaults.dateB;
     const theme = saved.theme || defaults.theme;
+    currentLang = saved.lang || defaults.lang;
 
     $("nameA").value = nameA;
     $("dateA").value = dateA;
@@ -458,14 +547,15 @@ function loadSettings() {
     if(avB) { tempAvatarB = avB; updateAvatarUI("B", avB); }
 
     setTheme(theme);
+    updateLanguage();
   } catch(e) {
     setTheme("dark");
+    updateLanguage();
   }
   render();
 }
 
 loadSettings();
-// Cập nhật liên tục mỗi giây
 setInterval(render, 1000);
 </script>
 </body>
